@@ -23,11 +23,11 @@ jobs:
       - name: List built files
         run: ls -R dist/
 
-      - name: Release
+      - name: Release dist to GitHub
         uses: softprops/action-gh-release@v1
         with:
-            files: |
-              dist/*
-              dist/**/*    # inkluderar undermappar
+          files: |
+            dist/*
+            dist/**/*    # inkluderar loader och undermappar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
