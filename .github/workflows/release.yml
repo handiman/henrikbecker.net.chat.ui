@@ -3,32 +3,32 @@ name: Build & Release cv-chat
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
-      - name: Build component
+      - name: Build
         run: npm run build
 
-      - name: Upload dist/ as release asset
+      - name: List dist
+        run: ls -R dist/
+
+      - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Release ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
           files: |
-            dist/cvchat.js
-            dist/cvchat.esm.js
-            dist/cvchat.css
+            www/build/cv-chat.js
+            www/build/cv-chat.esm.js
+            www/build/cv-chat.css
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
