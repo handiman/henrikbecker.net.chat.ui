@@ -21,7 +21,7 @@ jobs:
         run: npm run build
   
       - name: List built files
-        run: ls -R dist/ www/build/
+        run: ls -R dist/
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -29,7 +29,5 @@ jobs:
             files: |
               dist/*
               dist/**/*    # inkluderar undermappar
-              www/build/*
-              www/index.html
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
