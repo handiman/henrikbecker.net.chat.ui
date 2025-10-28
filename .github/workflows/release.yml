@@ -24,8 +24,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            www/build/cvchat.js
-            www/build/cvchat.esm.js
-            www/build/cvchat.css
+            dist/cv-chat.esm.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
