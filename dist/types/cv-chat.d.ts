@@ -5,12 +5,9 @@ export declare class CvChat {
     promptGuard: string;
     chunks: string[];
     loading: boolean;
-    showMeta: boolean;
-    history: {
-        question: string;
-        answer: string;
-    }[];
     examples: string[];
     handleAsk(): Promise<void>;
+    private logDebug;
+    private extractResponseType;
     render(): any;
 }

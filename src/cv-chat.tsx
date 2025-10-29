@@ -12,8 +12,6 @@ export class CvChat {
   @State() promptGuard: string = '';
   @State() chunks: string[] = [];
   @State() loading: boolean = false;
-  @State() showMeta: boolean = false;
-  @State() history: { question: string; answer: string }[] = [];
 
   examples = [
     "What has Henrik done in .NET?",
@@ -34,7 +32,7 @@ export class CvChat {
       const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.question) // sending raw string
+        body: JSON.stringify(this.question)
       });
 
       const data = await response.json();
@@ -42,7 +40,8 @@ export class CvChat {
       this.confidence = data.confidence;
       this.promptGuard = data.promptGuard;
       this.chunks = data.chunks;
-      this.history = [...this.history, { question: this.question, answer: data.answer }];
+
+      this.logDebug(this.question, data);
     } catch (error) {
       this.answer = error + " Something went wrong while contacting Henrik's brain.";
     }
@@ -50,21 +49,56 @@ export class CvChat {
     this.loading = false;
   }
 
+  private logDebug(question: string, data: any) {
+    console.groupCollapsed(`💬 ${question}`);
+    console.log('🧩 PromptGuard:', data.promptGuard);
+    console.log('📚 Chunks:', data.chunks);
+    console.log('🎯 Confidence:', data.confidence);
+    console.log('🧠 Response Type:', this.extractResponseType(data.answer));
+    console.log('🧠 Original Question:', question);
+    console.groupEnd();
+  }
+
+  private extractResponseType(answer: string): string {
+    if (answer.includes('Faktabaserat')) return 'Faktabaserat';
+    if (answer.includes('Tolkning')) return 'Tolkning';
+    if (answer.includes('Kreativ')) return 'Kreativ extrapolering';
+    return 'Okänt';
+  }
+  
+  private handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.handleAsk();
+    }
+  }
+
   render() {
     return (
       <div part="container">
-        <label htmlFor="question" part="label">Ask Henrik's CV bot anything</label>
-        <input
-          id="question"
-          part="input"
-          type="text"
-          value={this.question}
-          onInput={e => this.question = (e.target as HTMLInputElement).value}
-          placeholder="Type your question here..."
-        />
-        <button part="button" onClick={() => this.handleAsk()} disabled={this.loading}>
-          {this.loading ? 'Thinking like Henrik…' : 'Ask the CV bot'}
-        </button>
+        <label htmlFor="question" part="label" class="intro-label">
+          Ask Henrik's CV bot anything
+        </label>
+        <div class="input-wrapper">
+          <input
+            id="question"
+            part="input"
+            type="text"
+            value={this.question}
+            onInput={e => this.question = (e.target as HTMLInputElement).value}
+            onKeyDown={e => this.handleKeyDown(e)}
+            placeholder="Ask Henrik something..."
+          />
+          <button
+            part="icon-button"
+            class="ask-button"
+            onClick={() => this.handleAsk()}
+            disabled={this.loading}
+            title="Ask"
+          >
+            🤖
+          </button>
+        </div>
 
         <div part="examples">
           <p part="examples-label">Example questions:</p>
@@ -81,35 +115,6 @@ export class CvChat {
             <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>
               {this.confidence}
             </span>
-            <p part="tone">🧠 Tone: Henrik-style</p>
-
-            <button part="meta-toggle" onClick={() => this.showMeta = !this.showMeta}>
-              {this.showMeta ? 'Hide meta' : 'Show meta'}
-            </button>
-
-            {this.showMeta && (
-              <div part="meta-info">
-                <p><strong>PromptGuard:</strong> {this.promptGuard}</p>
-                <p><strong>Chunks:</strong></p>
-                <ul>
-                  {this.chunks.map(chunk => <li>{chunk}</li>)}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-
-        {this.history.length > 0 && (
-          <div part="history">
-            <h4>Previous questions</h4>
-            <ul>
-              {this.history.map((item, index) => (
-                <li key={index}>
-                  <strong>{item.question}</strong><br />
-                  <span>{item.answer}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         )}
       </div>

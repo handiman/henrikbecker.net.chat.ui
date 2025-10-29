@@ -17,6 +17,6 @@ var patchBrowser = () => {
 
 patchBrowser().then(async (options) => {
   await globalScripts();
-  return bootstrapLazy([["cv-chat",[[257,"cv-chat",{"question":[32],"answer":[32],"confidence":[32],"promptGuard":[32],"chunks":[32],"loading":[32],"showMeta":[32],"history":[32]}]]]], options);
+  return bootstrapLazy([["cv-chat",[[257,"cv-chat",{"question":[32],"answer":[32],"confidence":[32],"promptGuard":[32],"chunks":[32],"loading":[32]}]]]], options);
 });
 //# sourceMappingURL=cv-chat.js.map
