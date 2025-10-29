@@ -6,13 +6,15 @@
   "module": "dist/index.js",
   "collection": "dist/collection/collection-manifest.json",
   "types": "dist/types/index.d.ts",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --watch --serve"
   },
   "devDependencies": {
-    "@stencil/core": "^4.0.0",
+    "@stencil/core": "^4.38.2",
     "fs-extra": "^11.3.2"
   }
 }
