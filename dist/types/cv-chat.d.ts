@@ -9,5 +9,6 @@ export declare class CvChat {
     handleAsk(): Promise<void>;
     private logDebug;
     private extractResponseType;
+    private handleKeyDown;
     render(): any;
 }

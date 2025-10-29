@@ -57,8 +57,14 @@ export class CvChat {
             return 'Kreativ extrapolering';
         return 'Okänt';
     }
+    handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.handleAsk();
+        }
+    }
     render() {
-        return (h("div", { key: 'a3350954cc8d37fff45606db5794a5946978259d', part: "container" }, h("label", { key: '247b8a2275b4da82f2391c28a6211abec6be05ea', htmlFor: "question", part: "label" }, "Ask Henrik's CV bot anything"), h("input", { key: '6793fe4072432603993e0ec95a453154c37aa260', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, placeholder: "Type your question here..." }), h("button", { key: '2a984d9341d2de09707a99edef3d4aba9d1c042e', part: "button", onClick: () => this.handleAsk(), disabled: this.loading }, this.loading ? 'Thinking like Henrik…' : 'Ask the CV bot'), h("div", { key: 'f4d2d109af6f51ec49ea26e2c0c02d781247e39a', part: "examples" }, h("p", { key: 'bf74f188c2191a820b21320fa4c1b14f2fc8b61f', part: "examples-label" }, "Example questions:"), this.examples.map(example => (h("button", { part: "example-button", onClick: () => this.question = example }, example)))), this.answer && (h("div", { key: '1a4d66a8976336c627bea26df7cc4441c67645f8', part: "response" }, h("p", { key: 'f0969862b3aa1b00a3cfea65c6f95491bf70549c' }, this.answer), h("span", { key: 'b1432e529c1b0543bbc29d3085bdac1e8fc2bbcc', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
+        return (h("div", { key: 'be7c4b793799de7e0f67ef86427f9ce99f988fac', part: "container" }, h("div", { key: '4c0546fdc567a958267fe930bd5c5bf84dede4f8', class: "input-wrapper" }, h("input", { key: 'e8fb7df6c6aa689671196f45f702d1dd231dbaaa', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: "Ask Henrik's CV bot anything..." }), h("button", { key: '6a60a56fd378626f52d9a77de639fece4a765ba3', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? h("span", { class: "spinner" }) : '🤖')), false && (h("div", { key: '2b6da1b692ab97934e11f6827514e6558fac900f', part: "examples" }, h("p", { key: '943752967ac0c5195632f8836eb8a789b527ac87', part: "examples-label" }, "Example questions:"), this.examples.map(example => (h("button", { part: "example-button", onClick: () => this.question = example }, example))))), this.answer && (h("div", { key: '265fddf2560ce96b0a636320e9d3bfbf172df5af', part: "response" }, h("p", { key: 'd98a0ef5e594123401fa446bb0764631162443de' }, this.answer), h("span", { key: 'a99ab1e4df172b568c25619756eae4745f88f177', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }

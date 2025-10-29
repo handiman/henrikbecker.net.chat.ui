@@ -76,9 +76,6 @@ export class CvChat {
   render() {
     return (
       <div part="container">
-        <label htmlFor="question" part="label" class="intro-label">
-          Ask Henrik's CV bot anything
-        </label>
         <div class="input-wrapper">
           <input
             id="question"
@@ -87,7 +84,7 @@ export class CvChat {
             value={this.question}
             onInput={e => this.question = (e.target as HTMLInputElement).value}
             onKeyDown={e => this.handleKeyDown(e)}
-            placeholder="Ask Henrik something..."
+            placeholder="Ask Henrik's CV bot anything..."
           />
           <button
             part="icon-button"
@@ -96,18 +93,19 @@ export class CvChat {
             disabled={this.loading}
             title="Ask"
           >
-            🤖
+            {this.loading ? <span class="spinner" /> : '🤖'}
           </button>
         </div>
-
-        <div part="examples">
-          <p part="examples-label">Example questions:</p>
-          {this.examples.map(example => (
-            <button part="example-button" onClick={() => this.question = example}>
-              {example}
-            </button>
-          ))}
-        </div>
+        { false && (
+          <div part="examples">
+            <p part="examples-label">Example questions:</p>
+            {this.examples.map(example => (
+              <button part="example-button" onClick={() => this.question = example}>
+                {example}
+              </button>
+            ))}
+          </div>
+        )}
 
         {this.answer && (
           <div part="response">
