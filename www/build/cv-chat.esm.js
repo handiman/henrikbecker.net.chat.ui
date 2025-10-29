@@ -1,0 +1,2 @@
+import{p as t,b as o}from"./p-C_P-tY0Y.js";export{s as setNonce}from"./p-C_P-tY0Y.js";import{g as r}from"./p-DQuL1Twl.js";var a=()=>{const s=import.meta.url;const o={};if(s!==""){o.resourcesUrl=new URL(".",s).href}return t(o)};a().then((async t=>{await r();return o([["p-6366d3b9",[[257,"cv-chat",{question:[32],answer:[32],confidence:[32],promptGuard:[32],chunks:[32],loading:[32],showMeta:[32],history:[32]}]]]],t)}));
+//# sourceMappingURL=cv-chat.esm.js.map
