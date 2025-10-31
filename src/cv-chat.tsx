@@ -6,9 +6,9 @@ import { Component, Prop, h, State } from '@stencil/core';
   shadow: true
 })
 export class CvChat {
-  @Prop() ingestEndpoint: string = 'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker';
-  @Prop() questionPlaceholder: string = 'Ask Henrik\'s CV bot anything...'
-  @Prop() errorMessage: string = 'Something went wrong while contacting Henrik´\'s brain.'
+  @Prop() collection: string = '';
+  @Prop() placeholder: string = 'Ask my CV bot anything...'
+  @Prop() error: string = 'Something went wrong while contacting my brain.'
   @State() question: string = '';
   @State() answer: string = '';
   @State() confidence: string = '';
@@ -26,7 +26,7 @@ export class CvChat {
     this.chunks = [];
 
     try {
-      const response = await fetch(this.ingestEndpoint, {
+      const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ingest/' + this.collection, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.question)
@@ -40,7 +40,7 @@ export class CvChat {
 
       this.logDebug(this.question, data);
     } catch (error) {
-      this.answer = error + " " + this.errorMessage;
+      this.answer = error + " " + this.error;
     }
 
     this.loading = false;
@@ -81,7 +81,7 @@ export class CvChat {
             value={this.question}
             onInput={e => this.question = (e.target as HTMLInputElement).value}
             onKeyDown={e => this.handleKeyDown(e)}
-            placeholder={this.questionPlaceholder}
+            placeholder={this.placeholder}
           />
           <button
             part="icon-button"
@@ -90,7 +90,11 @@ export class CvChat {
             disabled={this.loading}
             title="Ask"
           >
-            {this.loading ? <span class="spinner" /> : '🤖'}
+            {this.loading ? (
+                <img src="/favicon.ico" class="spinner" />
+              ) : (
+                <img src="/favicon.ico" />
+              )}
           </button>
         </div>
 

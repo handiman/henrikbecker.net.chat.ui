@@ -1,9 +1,9 @@
 import { h } from "@stencil/core";
 export class CvChat {
     constructor() {
-        this.ingestEndpoint = 'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker';
-        this.questionPlaceholder = 'Ask Henrik\'s CV bot anything...';
-        this.errorMessage = 'Something went wrong while contacting Henrik´\'s brain.';
+        this.collection = '';
+        this.placeholder = 'Ask my CV bot anything...';
+        this.error = 'Something went wrong while contacting my brain.';
         this.question = '';
         this.answer = '';
         this.confidence = '';
@@ -20,7 +20,7 @@ export class CvChat {
         this.promptGuard = '';
         this.chunks = [];
         try {
-            const response = await fetch(this.ingestEndpoint, {
+            const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ingest/' + this.collection, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.question)
@@ -33,7 +33,7 @@ export class CvChat {
             this.logDebug(this.question, data);
         }
         catch (error) {
-            this.answer = error + " " + this.errorMessage;
+            this.answer = error + " " + this.error;
         }
         this.loading = false;
     }
@@ -62,7 +62,7 @@ export class CvChat {
         }
     }
     render() {
-        return (h("div", { key: '2620ca422b38a5a3cb9a7ca368e0836c8b34b57c', part: "container" }, h("div", { key: 'deaa2247b35066de8cf78f1c10492415ebd9d6d6', class: "input-wrapper" }, h("input", { key: 'ce6249f9fe07a85d57a4747839a8b16d4b8d0a08', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.questionPlaceholder }), h("button", { key: '39bcf980f700109606e4dd84dfee5baafaf995e9', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? h("span", { class: "spinner" }) : '🤖')), this.answer && (h("div", { key: '7cd49eecd0200ccf07f74c53ad46bdefc37ee905', part: "response" }, h("p", { key: 'd271e82fd3f6e42d078b178716bc27f3030ecc6d' }, this.answer), h("span", { key: '4ca30db4960c57bd8efad02f84e68394f7de0063', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
+        return (h("div", { key: 'e616e4da5d4dc5ddf3d49f461a88ed08e831e069', part: "container" }, h("div", { key: 'c9edcda4234c3b0bbaf82809ea485e2571426a7e', class: "input-wrapper" }, h("input", { key: '016af5db79a3a2ae95edc25abd816b48a1db25f4', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: '870bd903e7573c54d3c2676256a7bfbe3bbde173', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), this.answer && (h("div", { key: 'bd7af4f888dbfad337e58a790b359aa90239ce79', part: "response" }, h("p", { key: '486c754bd43099a753a3a339725f5019c5e6265a' }, this.answer), h("span", { key: '87a5db38f2179eb7ed01b8f3e2f4a5f5f60c72f6', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -78,7 +78,7 @@ export class CvChat {
     }
     static get properties() {
         return {
-            "ingestEndpoint": {
+            "collection": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -95,10 +95,10 @@ export class CvChat {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "ingest-endpoint",
-                "defaultValue": "'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker'"
+                "attribute": "collection",
+                "defaultValue": "''"
             },
-            "questionPlaceholder": {
+            "placeholder": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -115,10 +115,10 @@ export class CvChat {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "question-placeholder",
-                "defaultValue": "'Ask Henrik\\'s CV bot anything...'"
+                "attribute": "placeholder",
+                "defaultValue": "'Ask my CV bot anything...'"
             },
-            "errorMessage": {
+            "error": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -135,8 +135,8 @@ export class CvChat {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "error-message",
-                "defaultValue": "'Something went wrong while contacting Henrik\u00B4\\'s brain.'"
+                "attribute": "error",
+                "defaultValue": "'Something went wrong while contacting my brain.'"
             }
         };
     }

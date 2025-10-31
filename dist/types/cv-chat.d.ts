@@ -1,7 +1,7 @@
 export declare class CvChat {
-    ingestEndpoint: string;
-    questionPlaceholder: string;
-    errorMessage: string;
+    collection: string;
+    placeholder: string;
+    error: string;
     question: string;
     answer: string;
     confidence: string;
