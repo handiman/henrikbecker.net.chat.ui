@@ -7,6 +7,18 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface CvChat {
+        /**
+          * @default 'Something went wrong while contacting Henrik´\'s brain.'
+         */
+        "errorMessage": string;
+        /**
+          * @default 'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker'
+         */
+        "ingestEndpoint": string;
+        /**
+          * @default 'Ask Henrik\'s CV bot anything...'
+         */
+        "questionPlaceholder": string;
     }
 }
 declare global {
@@ -22,6 +34,18 @@ declare global {
 }
 declare namespace LocalJSX {
     interface CvChat {
+        /**
+          * @default 'Something went wrong while contacting Henrik´\'s brain.'
+         */
+        "errorMessage"?: string;
+        /**
+          * @default 'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker'
+         */
+        "ingestEndpoint"?: string;
+        /**
+          * @default 'Ask Henrik\'s CV bot anything...'
+         */
+        "questionPlaceholder"?: string;
     }
     interface IntrinsicElements {
         "cv-chat": CvChat;

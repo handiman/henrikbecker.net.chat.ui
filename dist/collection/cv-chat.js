@@ -1,17 +1,15 @@
 import { h } from "@stencil/core";
 export class CvChat {
     constructor() {
+        this.ingestEndpoint = 'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker';
+        this.questionPlaceholder = 'Ask Henrik\'s CV bot anything...';
+        this.errorMessage = 'Something went wrong while contacting Henrik´\'s brain.';
         this.question = '';
         this.answer = '';
         this.confidence = '';
         this.promptGuard = '';
         this.chunks = [];
         this.loading = false;
-        this.examples = [
-            "What has Henrik done in .NET?",
-            "Has he worked with automation?",
-            "What's his philosophy on AI?"
-        ];
     }
     async handleAsk() {
         if (!this.question.trim())
@@ -22,7 +20,7 @@ export class CvChat {
         this.promptGuard = '';
         this.chunks = [];
         try {
-            const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask', {
+            const response = await fetch(this.ingestEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.question)
@@ -35,7 +33,7 @@ export class CvChat {
             this.logDebug(this.question, data);
         }
         catch (error) {
-            this.answer = error + " Something went wrong while contacting Henrik's brain.";
+            this.answer = error + " " + this.errorMessage;
         }
         this.loading = false;
     }
@@ -64,7 +62,7 @@ export class CvChat {
         }
     }
     render() {
-        return (h("div", { key: 'be7c4b793799de7e0f67ef86427f9ce99f988fac', part: "container" }, h("div", { key: '4c0546fdc567a958267fe930bd5c5bf84dede4f8', class: "input-wrapper" }, h("input", { key: 'e8fb7df6c6aa689671196f45f702d1dd231dbaaa', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: "Ask Henrik's CV bot anything..." }), h("button", { key: '6a60a56fd378626f52d9a77de639fece4a765ba3', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? h("span", { class: "spinner" }) : '🤖')), false && (h("div", { key: '2b6da1b692ab97934e11f6827514e6558fac900f', part: "examples" }, h("p", { key: '943752967ac0c5195632f8836eb8a789b527ac87', part: "examples-label" }, "Example questions:"), this.examples.map(example => (h("button", { part: "example-button", onClick: () => this.question = example }, example))))), this.answer && (h("div", { key: '265fddf2560ce96b0a636320e9d3bfbf172df5af', part: "response" }, h("p", { key: 'd98a0ef5e594123401fa446bb0764631162443de' }, this.answer), h("span", { key: 'a99ab1e4df172b568c25619756eae4745f88f177', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
+        return (h("div", { key: '2620ca422b38a5a3cb9a7ca368e0836c8b34b57c', part: "container" }, h("div", { key: 'deaa2247b35066de8cf78f1c10492415ebd9d6d6', class: "input-wrapper" }, h("input", { key: 'ce6249f9fe07a85d57a4747839a8b16d4b8d0a08', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.questionPlaceholder }), h("button", { key: '39bcf980f700109606e4dd84dfee5baafaf995e9', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? h("span", { class: "spinner" }) : '🤖')), this.answer && (h("div", { key: '7cd49eecd0200ccf07f74c53ad46bdefc37ee905', part: "response" }, h("p", { key: 'd271e82fd3f6e42d078b178716bc27f3030ecc6d' }, this.answer), h("span", { key: '4ca30db4960c57bd8efad02f84e68394f7de0063', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -76,6 +74,70 @@ export class CvChat {
     static get styleUrls() {
         return {
             "$": ["cv-chat.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "ingestEndpoint": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "ingest-endpoint",
+                "defaultValue": "'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker'"
+            },
+            "questionPlaceholder": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "question-placeholder",
+                "defaultValue": "'Ask Henrik\\'s CV bot anything...'"
+            },
+            "errorMessage": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "error-message",
+                "defaultValue": "'Something went wrong while contacting Henrik\u00B4\\'s brain.'"
+            }
         };
     }
     static get states() {

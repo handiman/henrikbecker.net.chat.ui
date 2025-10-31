@@ -1,4 +1,4 @@
-import { Component, h, State } from '@stencil/core';
+import { Component, Prop, h, State } from '@stencil/core';
 
 @Component({
   tag: 'cv-chat',
@@ -6,18 +6,15 @@ import { Component, h, State } from '@stencil/core';
   shadow: true
 })
 export class CvChat {
+  @Prop() ingestEndpoint: string = 'https://henrikbecker.azurewebsites.net/ai/ingest/henrik-becker';
+  @Prop() questionPlaceholder: string = 'Ask Henrik\'s CV bot anything...'
+  @Prop() errorMessage: string = 'Something went wrong while contacting Henrik´\'s brain.'
   @State() question: string = '';
   @State() answer: string = '';
   @State() confidence: string = '';
   @State() promptGuard: string = '';
   @State() chunks: string[] = [];
   @State() loading: boolean = false;
-
-  examples = [
-    "What has Henrik done in .NET?",
-    "Has he worked with automation?",
-    "What's his philosophy on AI?"
-  ];
 
   async handleAsk() {
     if (!this.question.trim()) return;
@@ -29,7 +26,7 @@ export class CvChat {
     this.chunks = [];
 
     try {
-      const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask', {
+      const response = await fetch(this.ingestEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.question)
@@ -43,7 +40,7 @@ export class CvChat {
 
       this.logDebug(this.question, data);
     } catch (error) {
-      this.answer = error + " Something went wrong while contacting Henrik's brain.";
+      this.answer = error + " " + this.errorMessage;
     }
 
     this.loading = false;
@@ -84,7 +81,7 @@ export class CvChat {
             value={this.question}
             onInput={e => this.question = (e.target as HTMLInputElement).value}
             onKeyDown={e => this.handleKeyDown(e)}
-            placeholder="Ask Henrik's CV bot anything..."
+            placeholder={this.questionPlaceholder}
           />
           <button
             part="icon-button"
@@ -96,16 +93,6 @@ export class CvChat {
             {this.loading ? <span class="spinner" /> : '🤖'}
           </button>
         </div>
-        { false && (
-          <div part="examples">
-            <p part="examples-label">Example questions:</p>
-            {this.examples.map(example => (
-              <button part="example-button" onClick={() => this.question = example}>
-                {example}
-              </button>
-            ))}
-          </div>
-        )}
 
         {this.answer && (
           <div part="response">

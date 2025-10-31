@@ -1,7 +1,5 @@
-'use strict';
-
 const NAMESPACE = 'cv-chat';
-const BUILD = /* cv-chat */ { hydratedSelectorName: "hydrated", propChangeCallback: false, updatable: true};
+const BUILD = /* cv-chat */ { hydratedSelectorName: "hydrated", lazyLoad: true, propChangeCallback: false, updatable: true};
 
 /*
  Stencil Client Platform v4.38.2 | MIT Licensed | https://stenciljs.com
@@ -418,6 +416,9 @@ createSupportsRuleRe(":host");
 createSupportsRuleRe(":host-context");
 var parsePropertyValue = (propValue, propType, isFormAssociated) => {
   if (propValue != null && !isComplexType(propValue)) {
+    if (propType & 1 /* String */) {
+      return String(propValue);
+    }
     return propValue;
   }
   return propValue;
@@ -931,7 +932,8 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
   const flags = hostRef.$flags$;
   const instance = hostRef.$lazyInstance$ ;
   newVal = parsePropertyValue(
-    newVal);
+    newVal,
+    cmpMeta.$members$[propName][0]);
   const areBothNaN = Number.isNaN(oldVal) && Number.isNaN(newVal);
   const didValueChange = newVal !== oldVal && !areBothNaN;
   if ((!(flags & 8 /* isConstructingInstance */) || oldVal === void 0) && didValueChange) {
@@ -951,7 +953,7 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
 
 // src/runtime/proxy-component.ts
 var proxyComponent = (Cstr, cmpMeta, flags) => {
-  var _a;
+  var _a, _b;
   const prototype = Cstr.prototype;
   if (cmpMeta.$members$ || BUILD.propChangeCallback) {
     const members = Object.entries((_a = cmpMeta.$members$) != null ? _a : {});
@@ -990,7 +992,8 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
               }
               origSetter.apply(this, [
                 parsePropertyValue(
-                  newValue)
+                  newValue,
+                  memberFlags)
               ]);
               newValue = memberFlags & 32 /* State */ ? this[memberName] : ref.$hostElement$[memberName];
               setValue(this, memberName, newValue, cmpMeta);
@@ -1014,7 +1017,8 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
                   ref.$instanceValues$.set(memberName, currentValue);
                 }
                 ref.$lazyInstance$[memberName] = parsePropertyValue(
-                  newValue);
+                  newValue,
+                  memberFlags);
                 setValue(this, memberName, ref.$lazyInstance$[memberName], cmpMeta);
               };
               if (ref.$lazyInstance$) {
@@ -1029,6 +1033,54 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
         });
       }
     });
+    if ((flags & 1 /* isElementConstructor */)) {
+      const attrNameToPropName = /* @__PURE__ */ new Map();
+      prototype.attributeChangedCallback = function(attrName, oldValue, newValue) {
+        plt.jmp(() => {
+          var _a2;
+          const propName = attrNameToPropName.get(attrName);
+          const hostRef = getHostRef(this);
+          if (this.hasOwnProperty(propName) && BUILD.lazyLoad) {
+            newValue = this[propName];
+            delete this[propName];
+          }
+          if (prototype.hasOwnProperty(propName) && typeof this[propName] === "number" && // cast type to number to avoid TS compiler issues
+          this[propName] == newValue) {
+            return;
+          } else if (propName == null) {
+            const flags2 = hostRef == null ? void 0 : hostRef.$flags$;
+            if (hostRef && flags2 && !(flags2 & 8 /* isConstructingInstance */) && flags2 & 128 /* isWatchReady */ && newValue !== oldValue) {
+              const instance = hostRef.$lazyInstance$ ;
+              const entry = (_a2 = cmpMeta.$watchers$) == null ? void 0 : _a2[attrName];
+              entry == null ? void 0 : entry.forEach((callbackName) => {
+                if (instance[callbackName] != null) {
+                  instance[callbackName].call(instance, newValue, oldValue, attrName);
+                }
+              });
+            }
+            return;
+          }
+          const propFlags = members.find(([m]) => m === propName);
+          if (propFlags && propFlags[1][0] & 4 /* Boolean */) {
+            newValue = newValue === null || newValue === "false" ? false : true;
+          }
+          const propDesc = Object.getOwnPropertyDescriptor(prototype, propName);
+          if (newValue != this[propName] && (!propDesc.get || !!propDesc.set)) {
+            this[propName] = newValue;
+          }
+        });
+      };
+      Cstr.observedAttributes = Array.from(
+        /* @__PURE__ */ new Set([
+          ...Object.keys((_b = cmpMeta.$watchers$) != null ? _b : {}),
+          ...members.filter(([_, m]) => m[0] & 31 /* HasAttribute */).map(([propName, m]) => {
+            const attrName = m[1] || propName;
+            attrNameToPropName.set(attrName, propName);
+            return attrName;
+          })
+        ])
+      );
+    }
   }
   return Cstr;
 };
@@ -1120,6 +1172,15 @@ var connectedCallback = (elm) => {
             break;
           }
         }
+      }
+      if (cmpMeta.$members$) {
+        Object.entries(cmpMeta.$members$).map(([memberName, [memberFlags]]) => {
+          if (memberFlags & 31 /* Prop */ && memberName in elm && elm[memberName] !== Object.prototype[memberName]) {
+            const value = elm[memberName];
+            delete elm[memberName];
+            elm[memberName] = value;
+          }
+        });
       }
       {
         initializeComponent(elm, hostRef, cmpMeta);
@@ -1292,11 +1353,7 @@ var bootstrapLazy = (lazyBundles, options = {}) => {
 // src/runtime/nonce.ts
 var setNonce = (nonce) => plt.$nonce$ = nonce;
 
-exports.bootstrapLazy = bootstrapLazy;
-exports.h = h;
-exports.promiseResolve = promiseResolve;
-exports.registerInstance = registerInstance;
-exports.setNonce = setNonce;
-//# sourceMappingURL=index-B5NDlE4k.js.map
+export { bootstrapLazy as b, h, promiseResolve as p, registerInstance as r, setNonce as s };
+//# sourceMappingURL=index-B_wcSKyM.js.map
 
-//# sourceMappingURL=index-B5NDlE4k.js.map
+//# sourceMappingURL=index-B_wcSKyM.js.map
