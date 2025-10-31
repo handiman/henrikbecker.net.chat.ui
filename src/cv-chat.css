@@ -1,7 +1,7 @@
 :host {
   display: block;
-  font-family: system-ui, sans-serif;
   position: relative;
+  font-family: system-ui, sans-serif;
   z-index: 1000;
 
   /* Temavariabler */
@@ -63,39 +63,19 @@ input[part="input"] {
 }
 
 /* Svarspanel */
-[part="response"] {
-  position: absolute;
-  top: calc(100% + 4px); /* direkt under input-wrapper */
-  right: 0;
-  background: var(--chat-bg);
-  box-shadow: var(--chat-shadow);
-  border-radius: var(--chat-radius);
-  padding: 0.75rem;
-  min-width: 280px;
-  max-width: 400px;
-  z-index: 9999;
-}
-
-[part="response"] p {
-  margin: 0 0 0.5rem 0;
-  font-size: 0.85rem;
-  color: var(--chat-text);
-}
-
 .response-box {
   position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
+  top: calc(100% + 4px); /* direkt under input-wrapper */
+  left: 0;
   background: var(--chat-bg);
   box-shadow: var(--chat-shadow);
   border-radius: var(--chat-radius);
-  padding: 1rem 1rem 2.5rem 1rem; /* extra padding för bottenknappar */
+  padding: 1rem 1rem 2.5rem 1rem; /* extra bottenutrymme för knappar */
   min-width: 280px;
   max-width: 400px;
   z-index: 9999;
   font-size: 0.85rem;
   color: var(--chat-text);
-  position: relative;
 }
 
 .response-box p {
@@ -148,10 +128,10 @@ input[part="input"] {
     min-width: 100%;
   }
 
-  [part="response"] {
+  .response-box {
     max-width: 100%;
-    right: auto;
     left: 0;
+    right: auto;
   }
 }
 
