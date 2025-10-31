@@ -1,4 +1,4 @@
-import { Component, Prop, h, State } from '@stencil/core';
+import { Component, Prop, h, State, Element } from '@stencil/core';
 
 @Component({
   tag: 'cv-chat',
@@ -16,6 +16,26 @@ export class CvChat {
   @State() chunks: string[] = [];
   @State() loading: boolean = false;
   @State() minimized: boolean = false;
+  @Element() el: HTMLElement;
+
+  componentDidLoad() {
+    document.addEventListener('click', this.handleClickOutside);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('click', this.handleClickOutside);
+  }
+
+  private handleClickOutside = (event: MouseEvent) => {
+    const host = this.el.shadowRoot || this.el;
+    if (!host.contains(event.target as Node)) {
+      this.minimized = true;
+    }
+  };
+
+  constructor() {
+    this.el = document.createElement('div');
+  }
 
   async handleAsk() {
     if (!this.question.trim()) return;
@@ -105,11 +125,14 @@ export class CvChat {
         </div>
 
         {!this.minimized && this.answer && (
-          <div part="response">
+          <div part="response" class="response-box">
             <p>{this.answer}</p>
             <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>
               {this.confidence}
             </span>
+            <button class="close-button" onClick={() => this.minimized = true} title="Stäng">
+              &times;
+            </button>
           </div>
         )}
       </div>

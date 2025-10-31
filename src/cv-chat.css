@@ -82,7 +82,31 @@ input[part="input"] {
   color: var(--chat-text);
 }
 
+.response-box {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--chat-bg);
+  box-shadow: var(--chat-shadow);
+  border-radius: var(--chat-radius);
+  padding: 1rem 1rem 2.5rem 1rem; /* extra padding för bottenknappar */
+  min-width: 280px;
+  max-width: 400px;
+  z-index: 9999;
+  font-size: 0.85rem;
+  color: var(--chat-text);
+  position: relative;
+}
+
+.response-box p {
+  margin: 0 0 0.5rem 0;
+}
+
+/* Confidence i nedre vänstra hörnet */
 .confidence {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -103,6 +127,19 @@ input[part="input"] {
 .confidence.low {
   background: var(--confidence-low-bg);
   color: var(--confidence-low-text);
+}
+
+/* Stäng-knapp i nedre högra hörnet */
+.close-button {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
 }
 
 /* Responsiv justering */

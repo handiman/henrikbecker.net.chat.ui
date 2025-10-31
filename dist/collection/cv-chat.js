@@ -1,5 +1,11 @@
 import { h } from "@stencil/core";
 export class CvChat {
+    componentDidLoad() {
+        document.addEventListener('click', this.handleClickOutside);
+    }
+    disconnectedCallback() {
+        document.removeEventListener('click', this.handleClickOutside);
+    }
     constructor() {
         this.collection = '';
         this.placeholder = 'Ask my CV bot anything...';
@@ -11,6 +17,13 @@ export class CvChat {
         this.chunks = [];
         this.loading = false;
         this.minimized = false;
+        this.handleClickOutside = (event) => {
+            const host = this.el.shadowRoot || this.el;
+            if (!host.contains(event.target)) {
+                this.minimized = true;
+            }
+        };
+        this.el = document.createElement('div');
     }
     async handleAsk() {
         if (!this.question.trim())
@@ -67,7 +80,7 @@ export class CvChat {
         this.minimized = !this.minimized;
     }
     render() {
-        return (h("div", { key: '750267cf852ef6a4efe238ff8141e85f5a1fa2b8', part: "container" }, h("div", { key: '8e45f10f829499dbea9e7e8fc1560eb024d7aab1', class: "input-wrapper" }, h("input", { key: 'e757ba7225f83e8004bd27e7fa92ceff9e25aa4b', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: '54f62175aebe6aea4060a0e48f79e9f3ae1cfc52', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: '1768982e981a059ec20cfd0ac0cd3d3d967945b9', part: "response" }, h("p", { key: '6586be440f1be115a405d656f7e606e67ee33b7d' }, this.answer), h("span", { key: '3ed541eb7f546610f91158755d2d85785d3595e6', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
+        return (h("div", { key: 'eb7c7ce3091802fe9faaf09bc605d07f577faf52', part: "container" }, h("div", { key: '8de2858af7239e685e59e71ed4ed3e1f20568738', class: "input-wrapper" }, h("input", { key: 'f42256811f329b493f29da3a95179df2494313a8', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: '06d13c962fcbf6246bdd8e7f5ca805164be53192', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: 'b8a90a4e8c533ecb00596242df9c12a57a49d2d9', part: "response", class: "response-box" }, h("p", { key: '97e8a4dd82b1ee7f3721013f5eae50671ca9d6b1' }, this.answer), h("span", { key: '20a8de5a519745bacbfd4e0ba4411861c1bc3743', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence), h("button", { key: '107ddd57a50e84c4ec0181f58b1abf5b4ff0499f', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -156,5 +169,6 @@ export class CvChat {
             "minimized": {}
         };
     }
+    static get elementRef() { return "el"; }
 }
 //# sourceMappingURL=cv-chat.js.map

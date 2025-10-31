@@ -9,6 +9,11 @@ export declare class CvChat {
     chunks: string[];
     loading: boolean;
     minimized: boolean;
+    el: HTMLElement;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    private handleClickOutside;
+    constructor();
     handleAsk(): Promise<void>;
     private logDebug;
     private extractResponseType;
