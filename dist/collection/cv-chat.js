@@ -4,7 +4,6 @@ export class CvChat {
         this.collection = '';
         this.placeholder = 'Ask my CV bot anything...';
         this.error = 'Something went wrong while contacting my brain.';
-        this.answerPosition = 'below';
         this.question = '';
         this.answer = '';
         this.confidence = '';
@@ -68,7 +67,7 @@ export class CvChat {
         this.minimized = !this.minimized;
     }
     render() {
-        return (h("div", { key: '98ceca848f4fe7a2fab785b2a03a620d47f60aec', part: "container" }, !this.minimized && this.answerPosition == 'above' && this.answer && (h("div", { key: 'fd5acb037572f8c987ea5a96e6a862ca99e7b6cd', part: "response" }, h("p", { key: '59b123542d25b0b4f29e6fe5fbc3827172a4c567' }, this.answer), h("span", { key: '1c6932b54821ca0269a98fad41aa37cfc9902380', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence))), h("div", { key: '2e104ab4946390f7b275bba9376bb5dce15c5dd4', class: "input-wrapper" }, h("input", { key: 'e281a23a8f9f7b98152fbfbefeedd33efc92f56c', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: 'e2e356d09f22a6960c1c540b3666414b25f0f4cd', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answerPosition == 'below' && this.answer && (h("div", { key: 'a6749dc638b2025e7e1a37b67bb663b3c03b2cfb', part: "response" }, h("p", { key: '76af986c70b76af7343e36efb81171ee20e9387b' }, this.answer), h("span", { key: '03a7bd67655bbd40613baa166d23847a29be92cd', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
+        return (h("div", { key: '750267cf852ef6a4efe238ff8141e85f5a1fa2b8', part: "container" }, h("div", { key: '8e45f10f829499dbea9e7e8fc1560eb024d7aab1', class: "input-wrapper" }, h("input", { key: 'e757ba7225f83e8004bd27e7fa92ceff9e25aa4b', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: '54f62175aebe6aea4060a0e48f79e9f3ae1cfc52', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: '1768982e981a059ec20cfd0ac0cd3d3d967945b9', part: "response" }, h("p", { key: '6586be440f1be115a405d656f7e606e67ee33b7d' }, this.answer), h("span", { key: '3ed541eb7f546610f91158755d2d85785d3595e6', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence)))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -143,26 +142,6 @@ export class CvChat {
                 "reflect": false,
                 "attribute": "error",
                 "defaultValue": "'Something went wrong while contacting my brain.'"
-            },
-            "answerPosition": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "answer-position",
-                "defaultValue": "'below'"
             }
         };
     }

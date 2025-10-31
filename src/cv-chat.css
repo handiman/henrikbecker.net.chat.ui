@@ -1,101 +1,124 @@
 :host {
   display: block;
   font-family: system-ui, sans-serif;
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-  box-sizing: border-box;
+  position: relative;
+  z-index: 1000;
 
-  /* Temavariabler — kan överskrivas från värdsidan */
-  --chat-accent: #333;
-  --chat-accent-hover: #555;
-  --chat-bg: #f9f9f9;
-  --chat-border: #ccc;
-  --chat-radius: 4px;
-  --chat-font-size: 1rem;
+  /* Temavariabler */
+  --chat-bg: #ffffff;
+  --chat-text: #333333;
+  --chat-accent: #26a69a;
+  --chat-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --chat-radius: 6px;
+
+  --confidence-high-bg: #e0f8e9;
+  --confidence-high-text: #2e7d32;
+  --confidence-medium-bg: #fff8e1;
+  --confidence-medium-text: #f9a825;
+  --confidence-low-bg: #ffebee;
+  --confidence-low-text: #c62828;
 }
 
+/* Inputfält + knapp */
 .input-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  background: var(--chat-bg);
+  border-radius: var(--chat-radius);
+  padding: 0.3rem 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-width: 240px;
 }
 
 input[part="input"] {
   flex: 1;
-  padding: 0.5rem 0.75rem;
-  font-size: var(--chat-font-size);
-  border: 1px solid var(--chat-border);
-  border-radius: var(--chat-radius);
-}
-
-button.ask-button {
-  background: var(--chat-accent);
-  color: white;
   border: none;
-  border-radius: var(--chat-radius);
-  font-size: 1.2rem;
-  padding: 0.4rem 0.6rem;
+  outline: none;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  background: transparent;
+  color: var(--chat-text);
+}
+
+.ask-button {
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: background 0.2s ease;
+  padding: 0.3rem;
 }
 
-button.ask-button:hover {
-  background: var(--chat-accent-hover);
-}
-
-button.ask-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-[part="response"] {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: var(--chat-bg);
-  border-left: 4px solid var(--chat-accent);
-  border-radius: var(--chat-radius);
-}
-
-.confidence {
-  display: inline-block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: bold;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  background: #eee;
-}
-
-.confidence.faktabaserat {
-  background: #d0f0d0;
-  color: #2b7a2b;
-}
-
-.confidence.tolkning {
-  background: #fdf0c0;
-  color: #a67c00;
-}
-
-.confidence.kreativ {
-  background: #f0d0f0;
-  color: #7a2b7a;
+.ask-button img {
+  width: 20px;
+  height: 20px;
 }
 
 .spinner {
-  display: inline-block;
-  width: 1.2rem;
-  height: 1.2rem;
-  animation: spin 0.8s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Svarspanel */
+[part="response"] {
+  position: absolute;
+  top: calc(100% + 4px); /* direkt under input-wrapper */
+  right: 0;
+  background: var(--chat-bg);
+  box-shadow: var(--chat-shadow);
+  border-radius: var(--chat-radius);
+  padding: 0.75rem;
+  min-width: 280px;
+  max-width: 400px;
+  z-index: 9999;
+}
+
+[part="response"] p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: var(--chat-text);
+}
+
+.confidence {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.confidence.high {
+  background: var(--confidence-high-bg);
+  color: var(--confidence-high-text);
+}
+
+.confidence.medium {
+  background: var(--confidence-medium-bg);
+  color: var(--confidence-medium-text);
+}
+
+.confidence.low {
+  background: var(--confidence-low-bg);
+  color: var(--confidence-low-text);
+}
+
+/* Responsiv justering */
+@media (max-width: 600px) {
+  .input-wrapper {
+    min-width: 100%;
+  }
+
+  [part="response"] {
+    max-width: 100%;
+    right: auto;
+    left: 0;
+  }
 }
 
 button img {
   width: 16px;
   height: 16px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }

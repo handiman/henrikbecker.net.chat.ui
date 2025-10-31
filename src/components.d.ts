@@ -8,10 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface CvChat {
         /**
-          * @default 'below'
-         */
-        "answerPosition": string;
-        /**
           * @default ''
          */
         "collection": string;
@@ -38,10 +34,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface CvChat {
-        /**
-          * @default 'below'
-         */
-        "answerPosition"?: string;
         /**
           * @default ''
          */

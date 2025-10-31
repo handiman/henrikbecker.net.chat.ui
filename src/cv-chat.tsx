@@ -9,7 +9,6 @@ export class CvChat {
   @Prop() collection: string = '';
   @Prop() placeholder: string = 'Ask my CV bot anything...'
   @Prop() error: string = 'Something went wrong while contacting my brain.'
-  @Prop() answerPosition: string = 'below'
   @State() question: string = '';
   @State() answer: string = '';
   @State() confidence: string = '';
@@ -80,15 +79,6 @@ export class CvChat {
   render() {
     return (
       <div part="container">
-        {!this.minimized && this.answerPosition == 'above' && this.answer && (
-          <div part="response">
-            <p>{this.answer}</p>
-            <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>
-              {this.confidence}
-            </span>
-          </div>
-        )}
-
         <div class="input-wrapper">
           <input
             id="question"
@@ -114,7 +104,7 @@ export class CvChat {
           </button>
         </div>
 
-        {!this.minimized && this.answerPosition == 'below' && this.answer && (
+        {!this.minimized && this.answer && (
           <div part="response">
             <p>{this.answer}</p>
             <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>

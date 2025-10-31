@@ -2,7 +2,6 @@ export declare class CvChat {
     collection: string;
     placeholder: string;
     error: string;
-    answerPosition: string;
     question: string;
     answer: string;
     confidence: string;
