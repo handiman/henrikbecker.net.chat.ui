@@ -9,12 +9,14 @@ export class CvChat {
   @Prop() collection: string = '';
   @Prop() placeholder: string = 'Ask my CV bot anything...'
   @Prop() error: string = 'Something went wrong while contacting my brain.'
+  @Prop() answerPosition: string = 'below'
   @State() question: string = '';
   @State() answer: string = '';
   @State() confidence: string = '';
   @State() promptGuard: string = '';
   @State() chunks: string[] = [];
   @State() loading: boolean = false;
+  @State() minimized: boolean = false;
 
   async handleAsk() {
     if (!this.question.trim()) return;
@@ -26,7 +28,7 @@ export class CvChat {
     this.chunks = [];
 
     try {
-      const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ingest/' + this.collection, {
+      const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask/' + this.collection, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.question)
@@ -62,17 +64,36 @@ export class CvChat {
     if (answer.includes('Kreativ')) return 'Kreativ extrapolering';
     return 'Okänt';
   }
-  
+
   private handleKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault();
       this.handleAsk();
     }
   }
+  
+  toggleMinimize() {
+    this.minimized = !this.minimized;
+  }
 
   render() {
     return (
       <div part="container">
+        <div class="chat-header">
+          <button class="minimize" onClick={() => this.toggleMinimize()}>
+            {this.minimized ? '▲' : '▼'}
+          </button>
+        </div>
+
+        {!this.minimized && this.answerPosition == 'above' && this.answer && (
+          <div part="response">
+            <p>{this.answer}</p>
+            <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>
+              {this.confidence}
+            </span>
+          </div>
+        )}
+
         <div class="input-wrapper">
           <input
             id="question"
@@ -98,7 +119,7 @@ export class CvChat {
           </button>
         </div>
 
-        {this.answer && (
+        {!this.minimized && this.answerPosition == 'below' && this.answer && (
           <div part="response">
             <p>{this.answer}</p>
             <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>
