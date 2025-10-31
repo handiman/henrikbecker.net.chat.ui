@@ -45,6 +45,7 @@ export class CvChat {
       this.answer = error + " " + this.error;
     }
 
+    this.minimized = false;
     this.loading = false;
   }
 
@@ -79,12 +80,6 @@ export class CvChat {
   render() {
     return (
       <div part="container">
-        <div class="chat-header">
-          <button class="minimize" onClick={() => this.toggleMinimize()}>
-            {this.minimized ? '▲' : '▼'}
-          </button>
-        </div>
-
         {!this.minimized && this.answerPosition == 'above' && this.answer && (
           <div part="response">
             <p>{this.answer}</p>
