@@ -1,4 +1,5 @@
 import { Component, Prop, h, State, Element } from '@stencil/core';
+import { marked } from 'marked';
 
 @Component({
   tag: 'cv-chat',
@@ -11,39 +12,15 @@ export class CvChat {
   @Prop() error: string = 'Something went wrong while contacting my brain.'
   @State() question: string = '';
   @State() answer: string = '';
-  @State() confidence: string = '';
-  @State() promptGuard: string = '';
   @State() chunks: string[] = [];
   @State() loading: boolean = false;
   @State() minimized: boolean = false;
-  @Element() el: HTMLElement;
-
-  componentDidLoad() {
-    document.addEventListener('click', this.handleClickOutside);
-  }
-
-  disconnectedCallback() {
-    document.removeEventListener('click', this.handleClickOutside);
-  }
-
-  private handleClickOutside = (event: MouseEvent) => {
-    const host = this.el.shadowRoot || this.el;
-    if (!host.contains(event.target as Node)) {
-      this.minimized = true;
-    }
-  };
-
-  constructor() {
-    this.el = document.createElement('div');
-  }
 
   async handleAsk() {
     if (!this.question.trim()) return;
 
     this.loading = true;
     this.answer = '';
-    this.confidence = '';
-    this.promptGuard = '';
     this.chunks = [];
 
     try {
@@ -54,9 +31,7 @@ export class CvChat {
       });
 
       const data = await response.json();
-      this.answer = data.answer;
-      this.confidence = data.confidence;
-      this.promptGuard = data.promptGuard;
+      this.answer = await marked(data.answer);
       this.chunks = data.chunks;
 
       this.logDebug(this.question, data);
@@ -70,19 +45,9 @@ export class CvChat {
 
   private logDebug(question: string, data: any) {
     console.groupCollapsed(`💬 ${question}`);
-    console.log('🧩 PromptGuard:', data.promptGuard);
-    console.log('📚 Chunks:', data.chunks);
-    console.log('🎯 Confidence:', data.confidence);
-    console.log('🧠 Response Type:', this.extractResponseType(data.answer));
     console.log('🧠 Original Question:', question);
+    console.log('📚 Chunks:', data.chunks);
     console.groupEnd();
-  }
-
-  private extractResponseType(answer: string): string {
-    if (answer.includes('Faktabaserat')) return 'Faktabaserat';
-    if (answer.includes('Tolkning')) return 'Tolkning';
-    if (answer.includes('Kreativ')) return 'Kreativ extrapolering';
-    return 'Okänt';
   }
 
   private handleKeyDown(e: KeyboardEvent) {
@@ -126,10 +91,7 @@ export class CvChat {
 
         {!this.minimized && this.answer && (
           <div part="response" class="response-box">
-            <p>{this.answer}</p>
-            <span part="confidence" class={`confidence ${this.confidence.toLowerCase()}`}>
-              {this.confidence}
-            </span>
+            <p innerHTML={this.answer}></p>
             <button class="close-button" onClick={() => this.minimized = true} title="Stäng">
               &times;
             </button>

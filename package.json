@@ -16,5 +16,8 @@
   "devDependencies": {
     "@stencil/core": "^4.38.2",
     "fs-extra": "^11.3.2"
+  },
+  "dependencies": {
+    "marked": "^16.4.1"
   }
 }

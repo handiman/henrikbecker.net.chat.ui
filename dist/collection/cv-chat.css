@@ -82,33 +82,6 @@ input[part="input"] {
   margin: 0 0 0.5rem 0;
 }
 
-/* Confidence i nedre vänstra hörnet */
-.confidence {
-  position: absolute;
-  bottom: 8px;
-  left: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-}
-
-.confidence.high {
-  background: var(--confidence-high-bg);
-  color: var(--confidence-high-text);
-}
-
-.confidence.medium {
-  background: var(--confidence-medium-bg);
-  color: var(--confidence-medium-text);
-}
-
-.confidence.low {
-  background: var(--confidence-low-bg);
-  color: var(--confidence-low-text);
-}
-
 /* Stäng-knapp i nedre högra hörnet */
 .close-button {
   position: absolute;

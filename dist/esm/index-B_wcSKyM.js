@@ -1,5 +1,3 @@
-'use strict';
-
 const NAMESPACE = 'cv-chat';
 const BUILD = /* cv-chat */ { hydratedSelectorName: "hydrated", lazyLoad: true, propChangeCallback: false, updatable: true};
 
@@ -424,10 +422,6 @@ var parsePropertyValue = (propValue, propType, isFormAssociated) => {
     return propValue;
   }
   return propValue;
-};
-var getElement = (ref) => {
-  var _a;
-  return (_a = getHostRef(ref)) == null ? void 0 : _a.$hostElement$ ;
 };
 var emitEvent = (elm, name, opts) => {
   const ev = plt.ce(name, opts);
@@ -1359,12 +1353,7 @@ var bootstrapLazy = (lazyBundles, options = {}) => {
 // src/runtime/nonce.ts
 var setNonce = (nonce) => plt.$nonce$ = nonce;
 
-exports.bootstrapLazy = bootstrapLazy;
-exports.getElement = getElement;
-exports.h = h;
-exports.promiseResolve = promiseResolve;
-exports.registerInstance = registerInstance;
-exports.setNonce = setNonce;
-//# sourceMappingURL=index-BudKt5BU.js.map
+export { bootstrapLazy as b, h, promiseResolve as p, registerInstance as r, setNonce as s };
+//# sourceMappingURL=index-B_wcSKyM.js.map
 
-//# sourceMappingURL=index-BudKt5BU.js.map
+//# sourceMappingURL=index-B_wcSKyM.js.map

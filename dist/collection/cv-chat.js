@@ -1,37 +1,21 @@
 import { h } from "@stencil/core";
+import { marked } from "marked";
 export class CvChat {
-    componentDidLoad() {
-        document.addEventListener('click', this.handleClickOutside);
-    }
-    disconnectedCallback() {
-        document.removeEventListener('click', this.handleClickOutside);
-    }
     constructor() {
         this.collection = '';
         this.placeholder = 'Ask my CV bot anything...';
         this.error = 'Something went wrong while contacting my brain.';
         this.question = '';
         this.answer = '';
-        this.confidence = '';
-        this.promptGuard = '';
         this.chunks = [];
         this.loading = false;
         this.minimized = false;
-        this.handleClickOutside = (event) => {
-            const host = this.el.shadowRoot || this.el;
-            if (!host.contains(event.target)) {
-                this.minimized = true;
-            }
-        };
-        this.el = document.createElement('div');
     }
     async handleAsk() {
         if (!this.question.trim())
             return;
         this.loading = true;
         this.answer = '';
-        this.confidence = '';
-        this.promptGuard = '';
         this.chunks = [];
         try {
             const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask/' + this.collection, {
@@ -40,9 +24,7 @@ export class CvChat {
                 body: JSON.stringify(this.question)
             });
             const data = await response.json();
-            this.answer = data.answer;
-            this.confidence = data.confidence;
-            this.promptGuard = data.promptGuard;
+            this.answer = await marked(data.answer);
             this.chunks = data.chunks;
             this.logDebug(this.question, data);
         }
@@ -54,21 +36,9 @@ export class CvChat {
     }
     logDebug(question, data) {
         console.groupCollapsed(`💬 ${question}`);
-        console.log('🧩 PromptGuard:', data.promptGuard);
-        console.log('📚 Chunks:', data.chunks);
-        console.log('🎯 Confidence:', data.confidence);
-        console.log('🧠 Response Type:', this.extractResponseType(data.answer));
         console.log('🧠 Original Question:', question);
+        console.log('📚 Chunks:', data.chunks);
         console.groupEnd();
-    }
-    extractResponseType(answer) {
-        if (answer.includes('Faktabaserat'))
-            return 'Faktabaserat';
-        if (answer.includes('Tolkning'))
-            return 'Tolkning';
-        if (answer.includes('Kreativ'))
-            return 'Kreativ extrapolering';
-        return 'Okänt';
     }
     handleKeyDown(e) {
         if (e.key === 'Enter') {
@@ -80,7 +50,7 @@ export class CvChat {
         this.minimized = !this.minimized;
     }
     render() {
-        return (h("div", { key: '38b7f1330f7a890ea9aa0ffed3a9984c1a9031c4', part: "container" }, h("div", { key: 'ad906c71cd08c4e6c3ae12ecf0e6a2cecda6503d', class: "input-wrapper" }, h("input", { key: '9a22295c26979aebccf1f6615ca544093b2db7fe', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: '054735de49c11b1e1eb364aa0e4a2f50ac7113a6', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: '7b74014c633b36065e7dbcf5effb57f57e9ba972', part: "response", class: "response-box" }, h("p", { key: 'e2800d98fb99533f12d9455cc6e60f07681dbfd2' }, this.answer), h("span", { key: '64c036f7d388d4afed5cbbc47fd92bf8350f3e24', part: "confidence", class: `confidence ${this.confidence.toLowerCase()}` }, this.confidence), h("button", { key: 'b769b635a2876fe62ea9dae5047ad23313ce5dd0', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
+        return (h("div", { key: 'd795e026b8a832bae358873ec6a8bc5c95d412e6', part: "container" }, h("div", { key: '2be36fbc02bd6869ed761bcf432b3002f61357ef', class: "input-wrapper" }, h("input", { key: '01a75c28eb709d1fcb364a5318a79e263fb2ef8a', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: '42a26a607a5f224f4f3a50de621c976d37a3fd5a', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("img", { src: "/favicon.ico", class: "spinner" })) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: '6fce77237600ce4dbb4feaf530543c5499ebce41', part: "response", class: "response-box" }, h("p", { key: '71c48e97f2ecb65dd963c17b0b2ddee60f112a56', innerHTML: this.answer }), h("button", { key: 'cd2449ffa307801a4d0bf45364b541036b3df91e', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -162,13 +132,10 @@ export class CvChat {
         return {
             "question": {},
             "answer": {},
-            "confidence": {},
-            "promptGuard": {},
             "chunks": {},
             "loading": {},
             "minimized": {}
         };
     }
-    static get elementRef() { return "el"; }
 }
 //# sourceMappingURL=cv-chat.js.map
