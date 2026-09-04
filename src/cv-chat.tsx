@@ -15,6 +15,11 @@ export class CvChat {
   @State() chunks: string[] = [];
   @State() loading: boolean = false;
   @State() minimized: boolean = false;
+  @State() spinnerFrame: string = CvChat.spinnerFrames[0];
+
+  private static spinnerFrames = ['/', '|', '\\', '-'];
+  private spinnerIndex = 0;
+  private spinnerTimer?: ReturnType<typeof setInterval>;
 
   async handleAsk() {
     if (!this.question.trim()) return;
@@ -22,6 +27,7 @@ export class CvChat {
     this.loading = true;
     this.answer = '';
     this.chunks = [];
+    this.startSpinner();
 
     try {
       const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask/' + this.collection, {
@@ -41,6 +47,28 @@ export class CvChat {
 
     this.minimized = false;
     this.loading = false;
+    this.stopSpinner();
+  }
+
+  private startSpinner() {
+    this.spinnerIndex = 0;
+    this.spinnerFrame = CvChat.spinnerFrames[0];
+    this.stopSpinner();
+    this.spinnerTimer = setInterval(() => {
+      this.spinnerIndex = (this.spinnerIndex + 1) % CvChat.spinnerFrames.length;
+      this.spinnerFrame = CvChat.spinnerFrames[this.spinnerIndex];
+    }, 120);
+  }
+
+  private stopSpinner() {
+    if (this.spinnerTimer) {
+      clearInterval(this.spinnerTimer);
+      this.spinnerTimer = undefined;
+    }
+  }
+
+  disconnectedCallback() {
+    this.stopSpinner();
   }
 
   private logDebug(question: string, data: any) {
@@ -82,7 +110,7 @@ export class CvChat {
             title="Ask"
           >
             {this.loading ? (
-                <img src="/favicon.ico" class="spinner" />
+                <span class="spinner" part="spinner" aria-hidden="true">{this.spinnerFrame}</span>
               ) : (
                 <img src="/favicon.ico" />
               )}

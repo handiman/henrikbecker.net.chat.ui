@@ -6,7 +6,7 @@ var appGlobals = require('./app-globals-V2Kpy_OQ.js');
 const defineCustomElements = async (win, options) => {
   if (typeof window === 'undefined') return undefined;
   await appGlobals.globalScripts();
-  return index.bootstrapLazy([["cv-chat.cjs",[[257,"cv-chat",{"collection":[1],"placeholder":[1],"error":[1],"question":[32],"answer":[32],"chunks":[32],"loading":[32],"minimized":[32]}]]]], options);
+  return index.bootstrapLazy([["cv-chat.cjs",[[257,"cv-chat",{"collection":[1],"placeholder":[1],"error":[1],"question":[32],"answer":[32],"chunks":[32],"loading":[32],"minimized":[32],"spinnerFrame":[32]}]]]], options);
 };
 
 exports.setNonce = index.setNonce;
