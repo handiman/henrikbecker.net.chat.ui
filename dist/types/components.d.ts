@@ -8,6 +8,10 @@ import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 export namespace Components {
     interface CvChat {
         /**
+          * Asks a question as if the visitor had typed it and pressed Enter.
+         */
+        "ask": (question: string) => Promise<void>;
+        /**
           * @default ''
          */
         "collection": string;
@@ -15,6 +19,10 @@ export namespace Components {
           * @default 'Something went wrong while contacting my brain.'
          */
         "error": string;
+        /**
+          * Puts the cursor in the question box.
+         */
+        "focusInput": () => Promise<void>;
         /**
           * @default 'Ask my CV bot anything...'
          */

@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-CB70RYB7.js');
+var index = require('./index-ByTs0fzj.js');
 var appGlobals = require('./app-globals-V2Kpy_OQ.js');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
@@ -19,7 +19,7 @@ var patchBrowser = () => {
 
 patchBrowser().then(async (options) => {
   await appGlobals.globalScripts();
-  return index.bootstrapLazy([["cv-chat.cjs",[[257,"cv-chat",{"collection":[1],"placeholder":[1],"error":[1],"question":[32],"answer":[32],"chunks":[32],"loading":[32],"minimized":[32],"spinnerFrame":[32]}]]]], options);
+  return index.bootstrapLazy([["cv-chat.cjs",[[257,"cv-chat",{"collection":[1],"placeholder":[1],"error":[1],"question":[32],"answer":[32],"chunks":[32],"loading":[32],"minimized":[32],"spinnerFrame":[32],"focusInput":[64],"ask":[64]}]]]], options);
 });
 
 exports.setNonce = index.setNonce;

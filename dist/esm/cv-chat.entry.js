@@ -1,4 +1,4 @@
-import { r as registerInstance, h as h$1 } from './index-B_wcSKyM.js';
+import { r as registerInstance, h as h$1 } from './index-DB2fo0pR.js';
 
 /**
  * marked v16.4.1 - a markdown parser
@@ -88,6 +88,18 @@ const CvChat = class {
         this.spinnerFrame = CvChat.spinnerFrames[0];
         this.spinnerIndex = 0;
     }
+    /** Puts the cursor in the question box. */
+    async focusInput() {
+        var _a;
+        (_a = this.inputEl) === null || _a === void 0 ? void 0 : _a.focus();
+    }
+    /** Asks a question as if the visitor had typed it and pressed Enter. */
+    async ask(question) {
+        var _a;
+        this.question = question;
+        (_a = this.inputEl) === null || _a === void 0 ? void 0 : _a.focus();
+        await this.handleAsk();
+    }
     async handleAsk() {
         if (!this.question.trim())
             return;
@@ -147,7 +159,7 @@ const CvChat = class {
         this.minimized = !this.minimized;
     }
     render() {
-        return (h$1("div", { key: 'b86fdaf953b6e2720aa8f33d4f071279bc2310cf', part: "container" }, h$1("div", { key: 'd43007826308a47af209002d2bfb6dee9f51f528', class: "input-wrapper" }, h$1("input", { key: 'f57a98c3b3fe448b0c523eb20aa72db68482a952', id: "question", part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h$1("button", { key: 'f5ab8d7ee1329c2853e5dfcd319207bfa1e61912', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h$1("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (h$1("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h$1("div", { key: '2d86c3d849ef63f1cc00f58d37698b3d36042dec', part: "response", class: "response-box" }, h$1("p", { key: '88191c383f90cfb1cd6783d9c25b2b33d4c4512c', innerHTML: this.answer }), h$1("button", { key: 'f7bf2f480c47ac0d391636c75a8b04e1d9a0d283', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
+        return (h$1("div", { key: '9e5659c9cad6587dca0b4b26e4085c0ab6a2d711', part: "container" }, h$1("div", { key: '62dacd1c42b33e017d71ed17831ebdf4f34b9264', class: "input-wrapper" }, h$1("input", { key: '13b2ac2004ca6179948d8464fb8e4ee163132759', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h$1("button", { key: 'cb77650af727a4d755acdee9ae9d194b462204ac', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h$1("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (h$1("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h$1("div", { key: 'fdf548cfd5533b0f03d6d7fa97a4678ed52b8696', part: "response", class: "response-box" }, h$1("p", { key: '5512e8598a365904f8eb1b26820576a7254e10fd', innerHTML: this.answer }), h$1("button", { key: '5e869972ab5578224dbb253cf8d0657492f5cfe8', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
     }
 };
 CvChat.spinnerFrames = ['/', '|', '\\', '-'];
