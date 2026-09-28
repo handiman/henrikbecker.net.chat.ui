@@ -1,3 +1,5 @@
+'use strict';
+
 const NAMESPACE = 'cv-chat';
 const BUILD = /* cv-chat */ { hydratedSelectorName: "hydrated", lazyLoad: true, propChangeCallback: false, updatable: true};
 
@@ -30,6 +32,9 @@ var registerHost = (hostElement, cmpMeta) => {
     $instanceValues$: /* @__PURE__ */ new Map(),
     $serializerValues$: /* @__PURE__ */ new Map()
   };
+  {
+    hostRef.$onInstancePromise$ = new Promise((r) => hostRef.$onInstanceResolve$ = r);
+  }
   {
     hostRef.$onReadyPromise$ = new Promise((r) => hostRef.$onReadyResolve$ = r);
     hostElement["s-p"] = [];
@@ -442,7 +447,11 @@ var setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags, initialRen
       classList.remove(...oldClasses.filter((c) => c && !newClasses.includes(c)));
       classList.add(...newClasses.filter((c) => c && !oldClasses.includes(c)));
     }
-  } else if (memberName === "key") ; else if ((!isProp ) && memberName[0] === "o" && memberName[1] === "n") {
+  } else if (memberName === "key") ; else if (memberName === "ref") {
+    if (newValue) {
+      newValue(elm);
+    }
+  } else if ((!isProp ) && memberName[0] === "o" && memberName[1] === "n") {
     if (memberName[2] === "-") {
       memberName = memberName.slice(3);
     } else if (isMemberInElement(win, ln)) {
@@ -599,6 +608,7 @@ var removeVnodes = (vnodes, startIdx, endIdx) => {
     const vnode = vnodes[index];
     if (vnode) {
       const elm = vnode.$elm$;
+      nullifyVNodeRefs(vnode);
       if (elm) {
         elm.remove();
       }
@@ -725,6 +735,12 @@ var patch = (oldVNode, newVNode2, isInitialRender = false) => {
     } else ;
   } else if (oldVNode.$text$ !== text) {
     elm.data = text;
+  }
+};
+var nullifyVNodeRefs = (vNode) => {
+  {
+    vNode.$attrs$ && vNode.$attrs$.ref && vNode.$attrs$.ref(null);
+    vNode.$children$ && vNode.$children$.map(nullifyVNodeRefs);
   }
 };
 var insertBefore = (parent, newNode, reference) => {
@@ -888,6 +904,9 @@ var postUpdateComponent = (hostRef) => {
     endPostUpdate();
   }
   {
+    hostRef.$onInstanceResolve$(elm);
+  }
+  {
     if (hostRef.$onRenderResolve$) {
       hostRef.$onRenderResolve$();
       hostRef.$onRenderResolve$ = void 0;
@@ -1029,6 +1048,17 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
                 });
               }
             }
+          }
+        });
+      } else if (flags & 1 /* isElementConstructor */ && memberFlags & 64 /* Method */) {
+        Object.defineProperty(prototype, memberName, {
+          value(...args) {
+            var _a2;
+            const ref = getHostRef(this);
+            return (_a2 = ref == null ? void 0 : ref.$onInstancePromise$) == null ? void 0 : _a2.then(() => {
+              var _a3;
+              return (_a3 = ref.$lazyInstance$) == null ? void 0 : _a3[memberName](...args);
+            });
           }
         });
       }
@@ -1353,7 +1383,11 @@ var bootstrapLazy = (lazyBundles, options = {}) => {
 // src/runtime/nonce.ts
 var setNonce = (nonce) => plt.$nonce$ = nonce;
 
-export { bootstrapLazy as b, h, promiseResolve as p, registerInstance as r, setNonce as s };
-//# sourceMappingURL=index-B_wcSKyM.js.map
+exports.bootstrapLazy = bootstrapLazy;
+exports.h = h;
+exports.promiseResolve = promiseResolve;
+exports.registerInstance = registerInstance;
+exports.setNonce = setNonce;
+//# sourceMappingURL=index-ByTs0fzj.js.map
 
-//# sourceMappingURL=index-B_wcSKyM.js.map
+//# sourceMappingURL=index-ByTs0fzj.js.map

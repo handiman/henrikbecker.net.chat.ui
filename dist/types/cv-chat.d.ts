@@ -11,6 +11,11 @@ export declare class CvChat {
     private static spinnerFrames;
     private spinnerIndex;
     private spinnerTimer?;
+    private inputEl?;
+    /** Puts the cursor in the question box. */
+    focusInput(): Promise<void>;
+    /** Asks a question as if the visitor had typed it and pressed Enter. */
+    ask(question: string): Promise<void>;
     handleAsk(): Promise<void>;
     private startSpinner;
     private stopSpinner;

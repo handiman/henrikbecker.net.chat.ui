@@ -1,4 +1,4 @@
-import { Component, Prop, h, State, Element } from '@stencil/core';
+import { Component, Prop, h, State, Method } from '@stencil/core';
 import { marked } from 'marked';
 
 @Component({
@@ -20,6 +20,21 @@ export class CvChat {
   private static spinnerFrames = ['/', '|', '\\', '-'];
   private spinnerIndex = 0;
   private spinnerTimer?: ReturnType<typeof setInterval>;
+  private inputEl?: HTMLInputElement;
+
+  /** Puts the cursor in the question box. */
+  @Method()
+  async focusInput() {
+    this.inputEl?.focus();
+  }
+
+  /** Asks a question as if the visitor had typed it and pressed Enter. */
+  @Method()
+  async ask(question: string) {
+    this.question = question;
+    this.inputEl?.focus();
+    await this.handleAsk();
+  }
 
   async handleAsk() {
     if (!this.question.trim()) return;
@@ -95,6 +110,7 @@ export class CvChat {
         <div class="input-wrapper">
           <input
             id="question"
+            ref={el => this.inputEl = el}
             part="input"
             type="text"
             value={this.question}
