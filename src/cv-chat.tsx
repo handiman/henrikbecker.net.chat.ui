@@ -51,13 +51,20 @@ export class CvChat {
         body: JSON.stringify(this.question)
       });
 
+      // A busy or failing backend answers with an error status (and sometimes no body);
+      // show the friendly `error` text instead of a parse error.
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      }
+
       const data = await response.json();
       this.answer = await marked(data.answer);
       this.chunks = data.chunks;
 
       this.logDebug(this.question, data);
     } catch (error) {
-      this.answer = error + " " + this.error;
+      console.error('cv-chat:', error);
+      this.answer = this.error;
     }
 
     this.minimized = false;
