@@ -113,13 +113,19 @@ const CvChat = class {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.question)
             });
+            // A busy or failing backend answers with an error status (and sometimes no body);
+            // show the friendly `error` text instead of a parse error.
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} ${response.statusText}`);
+            }
             const data = await response.json();
             this.answer = await k(data.answer);
             this.chunks = data.chunks;
             this.logDebug(this.question, data);
         }
         catch (error) {
-            this.answer = error + " " + this.error;
+            console.error('cv-chat:', error);
+            this.answer = this.error;
         }
         this.minimized = false;
         this.loading = false;
@@ -159,7 +165,7 @@ const CvChat = class {
         this.minimized = !this.minimized;
     }
     render() {
-        return (h$1("div", { key: '9e5659c9cad6587dca0b4b26e4085c0ab6a2d711', part: "container" }, h$1("div", { key: '62dacd1c42b33e017d71ed17831ebdf4f34b9264', class: "input-wrapper" }, h$1("input", { key: '13b2ac2004ca6179948d8464fb8e4ee163132759', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h$1("button", { key: 'cb77650af727a4d755acdee9ae9d194b462204ac', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h$1("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (h$1("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h$1("div", { key: 'fdf548cfd5533b0f03d6d7fa97a4678ed52b8696', part: "response", class: "response-box" }, h$1("p", { key: '5512e8598a365904f8eb1b26820576a7254e10fd', innerHTML: this.answer }), h$1("button", { key: '5e869972ab5578224dbb253cf8d0657492f5cfe8', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
+        return (h$1("div", { key: 'ca7fa4cbb432c4fd1888c2cdb5f14a2d497bce97', part: "container" }, h$1("div", { key: 'bd183953b1167d93d7d6522b9172fc91efd6061c', class: "input-wrapper" }, h$1("input", { key: '3027313cbcd0a908693444f41ec1f98247918c0f', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h$1("button", { key: 'b536aa92fb1c1152f2d1312a89a7d608888b359d', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h$1("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (h$1("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h$1("div", { key: 'a7676fb1038b8884fc141aa4f3f17bc904a2af4b', part: "response", class: "response-box" }, h$1("p", { key: 'd6f2b4bd4d6ab14564d892401ee2fe789a4e3ad7', innerHTML: this.answer }), h$1("button", { key: 'cbc2098517519a9062b41e856b903513386ed82d', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
     }
 };
 CvChat.spinnerFrames = ['/', '|', '\\', '-'];
