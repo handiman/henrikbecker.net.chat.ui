@@ -1,5 +1,7 @@
 export declare class CvChat {
     collection: string;
+    /** Base URL of the ask endpoint; the collection name is appended. */
+    endpoint: string;
     placeholder: string;
     error: string;
     question: string;

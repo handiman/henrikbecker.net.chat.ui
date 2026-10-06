@@ -16,6 +16,11 @@ export namespace Components {
          */
         "collection": string;
         /**
+          * Base URL of the ask endpoint; the collection name is appended.
+          * @default 'https://ai-worker.henrik-becker.workers.dev/ask/'
+         */
+        "endpoint": string;
+        /**
           * @default 'Something went wrong while contacting my brain.'
          */
         "error": string;
@@ -46,6 +51,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "collection"?: string;
+        /**
+          * Base URL of the ask endpoint; the collection name is appended.
+          * @default 'https://ai-worker.henrik-becker.workers.dev/ask/'
+         */
+        "endpoint"?: string;
         /**
           * @default 'Something went wrong while contacting my brain.'
          */
