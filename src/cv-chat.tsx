@@ -8,6 +8,8 @@ import { marked } from 'marked';
 })
 export class CvChat {
   @Prop() collection: string = '';
+  /** Base URL of the ask endpoint; the collection name is appended. */
+  @Prop() endpoint: string = 'https://ai-worker.henrik-becker.workers.dev/ask/';
   @Prop() placeholder: string = 'Ask my CV bot anything...'
   @Prop() error: string = 'Something went wrong while contacting my brain.'
   @State() question: string = '';
@@ -45,7 +47,7 @@ export class CvChat {
     this.startSpinner();
 
     try {
-      const response = await fetch('https://henrikbecker.azurewebsites.net/ai/ask/' + this.collection, {
+      const response = await fetch(this.endpoint + this.collection, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.question)
