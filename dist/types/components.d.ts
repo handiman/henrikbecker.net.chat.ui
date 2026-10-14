@@ -17,7 +17,7 @@ export namespace Components {
         "collection": string;
         /**
           * Base URL of the ask endpoint; the collection name is appended.
-          * @default 'https://chat-worker.henrik-becker.workers.dev/ask/'
+          * @default 'https://chat.henrik-becker.workers.dev/ask/'
          */
         "endpoint": string;
         /**
@@ -53,7 +53,7 @@ declare namespace LocalJSX {
         "collection"?: string;
         /**
           * Base URL of the ask endpoint; the collection name is appended.
-          * @default 'https://chat-worker.henrik-becker.workers.dev/ask/'
+          * @default 'https://chat.henrik-becker.workers.dev/ask/'
          */
         "endpoint"?: string;
         /**
