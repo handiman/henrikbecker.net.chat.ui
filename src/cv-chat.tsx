@@ -9,7 +9,7 @@ import { marked } from 'marked';
 export class CvChat {
   @Prop() collection: string = '';
   /** Base URL of the ask endpoint; the collection name is appended. */
-  @Prop() endpoint: string = 'https://ai.henrikbecker.net/ask/';
+  @Prop() endpoint: string = 'https://chat.henrik-becker.workers.dev/ask/';
   @Prop() placeholder: string = 'Ask my CV bot anything...'
   @Prop() error: string = 'Something went wrong while contacting my brain.'
   @State() question: string = '';

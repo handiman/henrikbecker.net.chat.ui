@@ -4,7 +4,7 @@ export class CvChat {
     constructor() {
         this.collection = '';
         /** Base URL of the ask endpoint; the collection name is appended. */
-        this.endpoint = 'https://ai.henrikbecker.net/ask/';
+        this.endpoint = 'https://chat.henrik-becker.workers.dev/ask/';
         this.placeholder = 'Ask my CV bot anything...';
         this.error = 'Something went wrong while contacting my brain.';
         this.question = '';
@@ -92,7 +92,7 @@ export class CvChat {
         this.minimized = !this.minimized;
     }
     render() {
-        return (h("div", { key: '08c274a80865cdddfb82535aa9a64b94d39d1dc7', part: "container" }, h("div", { key: 'cb17ca75d79e1647c4f3b684f3b1d3bb3014e2fb', class: "input-wrapper" }, h("input", { key: '556e09c34e45a303a3fe9a9a03ebad855a9ee455', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: 'b1d3cdd50b3f88e9adeef6e8543704df8750e9a5', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: '0e053db1b3388e0ff1c2f94c6dc212d631a6b204', part: "response", class: "response-box" }, h("p", { key: '1b99bfeae5a4453b07c5783fcf29c60ac59fe8cc', innerHTML: this.answer }), h("button", { key: '862b9b0982984930e3c1d18bfaf22205686cbb34', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
+        return (h("div", { key: 'd57c4a076cddb57d224d446bd691d0e2bac83a5e', part: "container" }, h("div", { key: '97eea441f286a9ec1dc4e297ad080ed0be6a1ee8', class: "input-wrapper" }, h("input", { key: '8f633f0e8826d93511d3ba81a305c8fa40cf0579', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), h("button", { key: 'a9fd9883b6a1f90bf59b23fcc70372a8c36fd8d9', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (h("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (h("div", { key: 'a085ae811b669a1a4f5cd08498195ed7532794fe', part: "response", class: "response-box" }, h("p", { key: '3189ecb460415023d8a0af7b4712e8bf8506b791', innerHTML: this.answer }), h("button", { key: '2fb7130afb4d9b9e53e0046ce5cadf35c4c6c8b2', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
     }
     static get is() { return "cv-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -146,7 +146,7 @@ export class CvChat {
                 "setter": false,
                 "reflect": false,
                 "attribute": "endpoint",
-                "defaultValue": "'https://ai.henrikbecker.net/ask/'"
+                "defaultValue": "'https://chat.henrik-becker.workers.dev/ask/'"
             },
             "placeholder": {
                 "type": "string",
