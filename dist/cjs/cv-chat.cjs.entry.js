@@ -81,7 +81,7 @@ const CvChat = class {
         index.registerInstance(this, hostRef);
         this.collection = '';
         /** Base URL of the ask endpoint; the collection name is appended. */
-        this.endpoint = 'https://henrikbecker-chat.henrik-becker.workers.dev/ask/';
+        this.endpoint = 'https://chat-worker.henrik-becker.workers.dev/ask/';
         this.placeholder = 'Ask my CV bot anything...';
         this.error = 'Something went wrong while contacting my brain.';
         this.question = '';
@@ -169,7 +169,7 @@ const CvChat = class {
         this.minimized = !this.minimized;
     }
     render() {
-        return (index.h("div", { key: '7c8b7c48b17ace260af0e15e9ce1360da18cab59', part: "container" }, index.h("div", { key: '75709415fff3d886343d1df59435b85a060b2dc2', class: "input-wrapper" }, index.h("input", { key: '060d3be3b1dbf39b446aff533408f21fa6fa992e', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), index.h("button", { key: 'dc367aa3861a226ad580395dde64a00eca744633', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (index.h("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (index.h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (index.h("div", { key: '58d65dcb006885eff1182ffecd4dad17081c5196', part: "response", class: "response-box" }, index.h("p", { key: '8a0e55fc98a3a36d2edf00049ae90504cda9acd8', innerHTML: this.answer }), index.h("button", { key: 'c9a54b67c162706c519c625c9863f4bd5d05d9ca', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
+        return (index.h("div", { key: '0275ec9f3a11f3912b4296baf4f72b341f9ef850', part: "container" }, index.h("div", { key: 'a26df8e37aeb639693fb30a0dbbb7dd9486e76e2', class: "input-wrapper" }, index.h("input", { key: '7f13f864aa74e7c03ef2bc5e8be74ae00829f735', id: "question", ref: el => this.inputEl = el, part: "input", type: "text", value: this.question, onInput: e => this.question = e.target.value, onKeyDown: e => this.handleKeyDown(e), placeholder: this.placeholder }), index.h("button", { key: 'a1b2d1a8042308abf406484316d61728bc91ffdc', part: "icon-button", class: "ask-button", onClick: () => this.handleAsk(), disabled: this.loading, title: "Ask" }, this.loading ? (index.h("span", { class: "spinner", part: "spinner", "aria-hidden": "true" }, this.spinnerFrame)) : (index.h("img", { src: "/favicon.ico" })))), !this.minimized && this.answer && (index.h("div", { key: 'ea18059b22198ad42fefb5babf663ec9cc4db635', part: "response", class: "response-box" }, index.h("p", { key: '0ddcc3362feba4b442079341e0900d1675e17e4c', innerHTML: this.answer }), index.h("button", { key: '8521be8b7fd8e56a79b4f9b151b0b3e44f28ed03', class: "close-button", onClick: () => this.minimized = true, title: "St\u00E4ng" }, "\u00D7")))));
     }
 };
 CvChat.spinnerFrames = ['/', '|', '\\', '-'];
