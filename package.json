@@ -18,6 +18,6 @@
     "fs-extra": "^11.3.2"
   },
   "dependencies": {
-    "marked": "^16.4.1"
+    "marked": "^18.1.0"
   }
 }
