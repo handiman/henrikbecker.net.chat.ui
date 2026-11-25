@@ -14,10 +14,10 @@
     "start": "stencil build --watch --serve"
   },
   "devDependencies": {
-    "@stencil/core": "^4.45.3",
+    "@stencil/core": "^4.45.5",
     "fs-extra": "^11.4.1"
   },
   "dependencies": {
-    "marked": "^18.2.0"
+    "marked": "^18.2.1"
   }
 }
